@@ -106,15 +106,7 @@ def _read_csv_from_file(file) -> pd.DataFrame:
 
 
 def normalize_billing_dataframe(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Normalize a billing/usage DataFrame from a file upload.
-    
-    Expects columns: customer_id, customer_name, plan, monthly_bill_usd,
-    tenure_months, late_payments_90d, usage_trend_pct_90d, support_tickets_90d
-    (though some may be missing; will use defaults).
-    
-    Returns: DataFrame with normalized columns and types.
-    """
+
     if df is None or df.empty:
         return pd.DataFrame([])
     
@@ -147,14 +139,7 @@ def normalize_billing_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def normalize_chat_dataframe(df: pd.DataFrame) -> dict:
-    """
-    Normalize a support chat logs DataFrame from a file upload.
-    
-    Expects columns: customer_id, transcript, timestamp (optional).
-    Groups by customer_id and concatenates transcripts (latest first).
-    
-    Returns: dict mapping customer_id -> transcript (str).
-    """
+
     if df is None or df.empty or "customer_id" not in df.columns or "transcript" not in df.columns:
         return {}
     
@@ -176,14 +161,7 @@ def normalize_chat_dataframe(df: pd.DataFrame) -> dict:
 
 
 def normalize_satisfaction_dataframe(df: pd.DataFrame) -> dict:
-    """
-    Normalize a satisfaction scores DataFrame from a file upload.
-    
-    Expects columns: customer_id, csat_score, nps_score, survey_date (optional).
-    Takes the latest survey (by survey_date) per customer.
-    
-    Returns: dict mapping customer_id -> {"csat_score": int or None, "nps_score": int or None}.
-    """
+
     if df is None or df.empty or "customer_id" not in df.columns:
         return {}
     
@@ -207,7 +185,7 @@ def normalize_satisfaction_dataframe(df: pd.DataFrame) -> dict:
 
 
 def _synthesize_transcript_from_satisfaction(scores: dict) -> str:
-    """Generate a fallback transcript when satisfaction data exists but chat logs don't."""
+
     csat = scores.get("csat_score") or 0
     nps = scores.get("nps_score") or 0
     if csat >= 4 and nps >= 0:
@@ -218,20 +196,7 @@ def _synthesize_transcript_from_satisfaction(scores: dict) -> str:
 
 
 def merge_customers_from_dataframes(billing_df=None, chat_map=None, satisfaction_map=None) -> list[dict]:
-    """
-    Merge uploaded DataFrames (normalized via normalize_*_dataframe functions)
-    with baseline data from load_all_customers().
     
-    Uploaded data takes precedence; missing fields fall back to defaults.
-    
-    Args:
-        billing_df: normalized billing DataFrame (from normalize_billing_dataframe)
-        chat_map: dict mapping customer_id -> transcript (from normalize_chat_dataframe)
-        satisfaction_map: dict mapping customer_id -> scores (from normalize_satisfaction_dataframe)
-    
-    Returns:
-        list[dict]: merged customer records
-    """
     baseline = {c["customer_id"]: c.copy() for c in load_all_customers()}
     
     source_ids = set()

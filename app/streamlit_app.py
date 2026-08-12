@@ -112,7 +112,7 @@ if st.button("Start Detector"):
     st.session_state.start_agent = True
 
 if USE_LIVE_LLM and LIVE_LLM_SUPPORTED:
-    st.success(f"Live Gemini mode enabled (rate-limited to {GEMINI_RPM_LIMIT} req/min, batch size {BATCH_SIZE}).", icon="🔒")
+    st.success(f"Live Gemini-3.1-flash-lite model enabled.", icon="🔒")
 elif USE_LIVE_LLM and not LIVE_LLM_SUPPORTED:
     st.warning("Gemini API key is present but the LLM package failed to load — falling back to offline mock mode.", icon="⚠️")
     if LLM_IMPORT_ERROR:
