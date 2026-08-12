@@ -1,0 +1,13 @@
+langgraph>=0.2
+langchain-google-genai>=2.0
+langchain>=0.3
+langchain-core>=0.3
+pydantic>=2.0
+pandas>=2.0
+numpy>=1.26
+xgboost>=2.0
+shap>=0.45
+scikit-learn>=1.4
+streamlit>=1.37
+faker>=25.0
+python-dotenv>=1.0

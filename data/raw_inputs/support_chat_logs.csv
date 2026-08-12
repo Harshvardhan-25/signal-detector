@@ -1,0 +1,77 @@
+ticket_id,customer_id,channel,timestamp,transcript
+TCK-00070,CUST-0036,phone,2026-05-13 00:00,I was charged twice again this month. This keeps happening and nobody fixes it. Extremely frustrating.
+TCK-00023,CUST-0011,phone,2026-05-14 00:00,"Asked for a refund three weeks ago, heard nothing back. Unacceptable for what I'm paying."
+TCK-00018,CUST-0008,email,2026-05-15 00:00,"Had a login issue this week, support helped but it took a couple of days."
+TCK-00048,CUST-0025,chat,2026-05-18 00:00,"We've barely used the platform this month, it keeps timing out. Considering moving to a competitor."
+TCK-00054,CUST-0027,email,2026-05-18 00:00,"Had a login issue this week, support helped but it took a couple of days."
+TCK-00024,CUST-0011,phone,2026-05-19 00:00,This is the third time I've called about the same billing error. Honestly looking at switching providers next week.
+TCK-00047,CUST-0025,email,2026-05-19 00:00,This is the third time I've called about the same billing error. Honestly looking at switching providers next week.
+TCK-00011,CUST-0004,phone,2026-05-20 00:00,"We've barely used the platform this month, it keeps timing out. Considering moving to a competitor."
+TCK-00038,CUST-0019,chat,2026-05-20 00:00,"Pricing feels a little high for what we're using, might reconsider at renewal."
+TCK-00027,CUST-0012,email,2026-05-21 00:00,This is the third time I've called about the same billing error. Honestly looking at switching providers next week.
+TCK-00032,CUST-0015,email,2026-05-21 00:00,I was charged twice again this month. This keeps happening and nobody fixes it. Extremely frustrating.
+TCK-00031,CUST-0014,chat,2026-05-24 00:00,"The new feature rollout has been great, saved our team a lot of time."
+TCK-00053,CUST-0027,phone,2026-05-24 00:00,"Mostly happy, just wish the reporting dashboard loaded faster."
+TCK-00033,CUST-0015,email,2026-05-25 00:00,"We've barely used the platform this month, it keeps timing out. Considering moving to a competitor."
+TCK-00066,CUST-0035,chat,2026-05-31 00:00,This is the third time I've called about the same billing error. Honestly looking at switching providers next week.
+TCK-00071,CUST-0036,chat,2026-05-31 00:00,"We've barely used the platform this month, it keeps timing out. Considering moving to a competitor."
+TCK-00040,CUST-0020,phone,2026-06-02 00:00,"Pricing feels a little high for what we're using, might reconsider at renewal."
+TCK-00022,CUST-0010,email,2026-06-03 00:00,A few minor app bugs but nothing that's stopped daily use.
+TCK-00059,CUST-0032,chat,2026-06-03 00:00,A few minor app bugs but nothing that's stopped daily use.
+TCK-00063,CUST-0034,phone,2026-06-04 00:00,"We've barely used the platform this month, it keeps timing out. Considering moving to a competitor."
+TCK-00037,CUST-0017,chat,2026-06-05 00:00,"Had a login issue this week, support helped but it took a couple of days."
+TCK-00060,CUST-0032,chat,2026-06-06 00:00,"Mostly happy, just wish the reporting dashboard loaded faster."
+TCK-00036,CUST-0017,phone,2026-06-10 00:00,"Had a login issue this week, support helped but it took a couple of days."
+TCK-00069,CUST-0036,phone,2026-06-10 00:00,Your support has been unresponsive for two weeks. If this isn't fixed by Friday I'm cancelling my plan.
+TCK-00009,CUST-0004,phone,2026-06-11 00:00,This is the third time I've called about the same billing error. Honestly looking at switching providers next week.
+TCK-00034,CUST-0016,email,2026-06-12 00:00,"We've barely used the platform this month, it keeps timing out. Considering moving to a competitor."
+TCK-00025,CUST-0011,phone,2026-06-13 00:00,"Asked for a refund three weeks ago, heard nothing back. Unacceptable for what I'm paying."
+TCK-00058,CUST-0031,phone,2026-06-13 00:00,A few minor app bugs but nothing that's stopped daily use.
+TCK-00003,CUST-0002,email,2026-06-14 00:00,"Asked for a refund three weeks ago, heard nothing back. Unacceptable for what I'm paying."
+TCK-00068,CUST-0036,phone,2026-06-14 00:00,"Asked for a refund three weeks ago, heard nothing back. Unacceptable for what I'm paying."
+TCK-00029,CUST-0012,chat,2026-06-15 00:00,This is the third time I've called about the same billing error. Honestly looking at switching providers next week.
+TCK-00067,CUST-0035,email,2026-06-15 00:00,"Asked for a refund three weeks ago, heard nothing back. Unacceptable for what I'm paying."
+TCK-00055,CUST-0029,chat,2026-06-16 00:00,Your support has been unresponsive for two weeks. If this isn't fixed by Friday I'm cancelling my plan.
+TCK-00073,CUST-0038,chat,2026-06-17 00:00,"Had a login issue this week, support helped but it took a couple of days."
+TCK-00005,CUST-0002,chat,2026-06-18 00:00,I was charged twice again this month. This keeps happening and nobody fixes it. Extremely frustrating.
+TCK-00016,CUST-0007,phone,2026-06-20 00:00,I was charged twice again this month. This keeps happening and nobody fixes it. Extremely frustrating.
+TCK-00026,CUST-0011,email,2026-06-21 00:00,"We've barely used the platform this month, it keeps timing out. Considering moving to a competitor."
+TCK-00050,CUST-0026,email,2026-06-21 00:00,"We've barely used the platform this month, it keeps timing out. Considering moving to a competitor."
+TCK-00076,CUST-0040,email,2026-06-21 00:00,"Had a login issue this week, support helped but it took a couple of days."
+TCK-00044,CUST-0024,chat,2026-06-25 00:00,Your support has been unresponsive for two weeks. If this isn't fixed by Friday I'm cancelling my plan.
+TCK-00039,CUST-0020,chat,2026-06-26 00:00,A few minor app bugs but nothing that's stopped daily use.
+TCK-00042,CUST-0022,phone,2026-06-26 00:00,This is the third time I've called about the same billing error. Honestly looking at switching providers next week.
+TCK-00007,CUST-0003,phone,2026-06-28 00:00,"Everything's been working smoothly, no complaints this quarter."
+TCK-00062,CUST-0034,phone,2026-06-30 00:00,"Asked for a refund three weeks ago, heard nothing back. Unacceptable for what I'm paying."
+TCK-00035,CUST-0016,chat,2026-07-02 00:00,Your support has been unresponsive for two weeks. If this isn't fixed by Friday I'm cancelling my plan.
+TCK-00014,CUST-0006,chat,2026-07-05 00:00,"Had a login issue this week, support helped but it took a couple of days."
+TCK-00043,CUST-0023,chat,2026-07-08 00:00,Renewed for another year without a second thought.
+TCK-00057,CUST-0030,phone,2026-07-08 00:00,"Mostly happy, just wish the reporting dashboard loaded faster."
+TCK-00001,CUST-0001,chat,2026-07-10 00:00,"Had a login issue this week, support helped but it took a couple of days."
+TCK-00065,CUST-0034,chat,2026-07-10 00:00,I was charged twice again this month. This keeps happening and nobody fixes it. Extremely frustrating.
+TCK-00041,CUST-0022,phone,2026-07-16 00:00,"We've barely used the platform this month, it keeps timing out. Considering moving to a competitor."
+TCK-00046,CUST-0024,email,2026-07-16 00:00,Your support has been unresponsive for two weeks. If this isn't fixed by Friday I'm cancelling my plan.
+TCK-00049,CUST-0025,email,2026-07-16 00:00,Your support has been unresponsive for two weeks. If this isn't fixed by Friday I'm cancelling my plan.
+TCK-00028,CUST-0012,chat,2026-07-17 00:00,Your support has been unresponsive for two weeks. If this isn't fixed by Friday I'm cancelling my plan.
+TCK-00021,CUST-0009,email,2026-07-18 00:00,I was charged twice again this month. This keeps happening and nobody fixes it. Extremely frustrating.
+TCK-00061,CUST-0033,chat,2026-07-19 00:00,"Mostly happy, just wish the reporting dashboard loaded faster."
+TCK-00013,CUST-0005,phone,2026-07-20 00:00,"The new update is a bit slower than before, hoping that gets addressed soon."
+TCK-00052,CUST-0026,chat,2026-07-20 00:00,This is the third time I've called about the same billing error. Honestly looking at switching providers next week.
+TCK-00006,CUST-0002,email,2026-07-22 00:00,"We've barely used the platform this month, it keeps timing out. Considering moving to a competitor."
+TCK-00019,CUST-0008,chat,2026-07-22 00:00,"Had a login issue this week, support helped but it took a couple of days."
+TCK-00074,CUST-0039,phone,2026-07-22 00:00,"Pricing feels a little high for what we're using, might reconsider at renewal."
+TCK-00075,CUST-0039,email,2026-07-23 00:00,"Had a login issue this week, support helped but it took a couple of days."
+TCK-00017,CUST-0007,email,2026-07-24 00:00,"Asked for a refund three weeks ago, heard nothing back. Unacceptable for what I'm paying."
+TCK-00045,CUST-0024,chat,2026-07-28 00:00,"We've barely used the platform this month, it keeps timing out. Considering moving to a competitor."
+TCK-00064,CUST-0034,phone,2026-07-28 00:00,This is the third time I've called about the same billing error. Honestly looking at switching providers next week.
+TCK-00002,CUST-0001,phone,2026-07-31 00:00,"Pricing feels a little high for what we're using, might reconsider at renewal."
+TCK-00015,CUST-0007,chat,2026-07-31 00:00,"We've barely used the platform this month, it keeps timing out. Considering moving to a competitor."
+TCK-00051,CUST-0026,phone,2026-07-31 00:00,Your support has been unresponsive for two weeks. If this isn't fixed by Friday I'm cancelling my plan.
+TCK-00004,CUST-0002,chat,2026-08-01 00:00,"Asked for a refund three weeks ago, heard nothing back. Unacceptable for what I'm paying."
+TCK-00072,CUST-0038,phone,2026-08-01 00:00,"Had a login issue this week, support helped but it took a couple of days."
+TCK-00008,CUST-0004,chat,2026-08-02 00:00,I was charged twice again this month. This keeps happening and nobody fixes it. Extremely frustrating.
+TCK-00010,CUST-0004,phone,2026-08-03 00:00,I was charged twice again this month. This keeps happening and nobody fixes it. Extremely frustrating.
+TCK-00056,CUST-0029,email,2026-08-07 00:00,Your support has been unresponsive for two weeks. If this isn't fixed by Friday I'm cancelling my plan.
+TCK-00012,CUST-0005,email,2026-08-08 00:00,"Pricing feels a little high for what we're using, might reconsider at renewal."
+TCK-00020,CUST-0009,email,2026-08-09 00:00,"Asked for a refund three weeks ago, heard nothing back. Unacceptable for what I'm paying."
+TCK-00030,CUST-0013,phone,2026-08-10 00:00,"Had a login issue this week, support helped but it took a couple of days."
