@@ -106,10 +106,16 @@ team would actually have this data sitting in three separate systems:
 | `satisfaction_scores.csv` | Survey tool | Only 24/40 customers responded — partial coverage on purpose |
 | `_ground_truth_risk.csv` | — | Demo/model-training only, never read by the live pipeline |
 
-`data/loader.py` joins these by `customer_id`. `data/customers.json` is a
-pre-joined convenience export used as the Streamlit app's default dataset
-before any CSV is uploaded — the app also supports uploading your own
-billing/chat/satisfaction CSVs directly in the sidebar.
+`data/loader.py` is the **single source of truth** for all data joining and
+normalization logic. It:
+- Joins the three siloed files by `customer_id` for file-based loading
+- Provides normalization functions for CSV DataFrames from Streamlit uploads
+- Ensures consistent schema across both training (`train_model.py`) and the live
+  Streamlit app
+
+`data/customers.json` is a pre-joined convenience export used as the Streamlit
+app's default dataset before any CSV is uploaded — the app also supports
+uploading your own billing/chat/satisfaction CSVs directly in the sidebar.
 
 ## Project structure
 
@@ -120,7 +126,7 @@ signal-detector/
 │   ├── raw_inputs/                # siloed sample CSVs
 │   ├── customers.json             # pre-joined convenience export
 │   ├── generate_raw_sources.py    # regenerates the sample CSVs + customers.json
-│   └── loader.py                  # joins the siloed sources by customer_id
+│   └── loader.py                  # joins & normalizes data (file-based + uploads)
 ├── agents/
 │   ├── config.py                  # all settings, only GEMINI_API_KEY is required
 │   ├── rate_limiter.py            # thread-safe RPM limiter shared across .batch()

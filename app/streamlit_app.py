@@ -14,6 +14,14 @@ from agents.graph import (
     USE_LIVE_LLM,
     build_graph,
 )
+from data.loader import (
+    load_all_customers,
+    _read_csv_from_file,
+    normalize_billing_dataframe,
+    normalize_chat_dataframe,
+    normalize_satisfaction_dataframe,
+    merge_customers_from_dataframes,
+)
 
 st.set_page_config(page_title="Customer Signal Detector", layout="wide")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -28,159 +36,9 @@ def get_graph():
 
 
 @st.cache_data
-def load_customers():
-    return json.loads(DATA_PATH.read_text())
+def load_builtin_customers():
+    return json.loads(DATA_PATH.read_text()) if DATA_PATH.exists() else load_all_customers()
 
-
-def _read_csv(file):
-    try:
-        return pd.read_csv(file, dtype=str, keep_default_na=False, na_values=[""], engine="python")
-    except Exception:
-        return pd.read_csv(file, dtype=str, keep_default_na=False, na_values=[""])
-
-
-def _safe_int(value, default=0):
-    try:
-        if pd.isna(value) or value == "":
-            return default
-        return int(float(value))
-    except Exception:
-        return default
-
-
-def _normalize_billing(df: pd.DataFrame) -> pd.DataFrame:
-    column_map = {
-        "customer_name": "name",
-        "plan": "plan",
-        "monthly_bill_usd": "monthly_bill_usd",
-        "tenure_months": "tenure_months",
-        "late_payments_90d": "late_payments_90d",
-        "usage_trend_pct_90d": "usage_trend_pct_90d",
-        "support_tickets_90d": "support_tickets_90d",
-        "customer_id": "customer_id",
-    }
-    df = df.rename(columns={k: v for k, v in column_map.items() if k in df.columns})
-    if "customer_id" not in df.columns:
-        return pd.DataFrame([])
-    df["customer_id"] = df["customer_id"].astype(str).str.strip()
-    for col in ["monthly_bill_usd", "tenure_months", "late_payments_90d", "usage_trend_pct_90d", "support_tickets_90d"]:
-        if col in df.columns:
-            df[col] = df[col].apply(lambda v: _safe_int(v, default=0))
-    if "support_tickets_90d" not in df.columns:
-        df["support_tickets_90d"] = 1
-    return df
-
-
-def _normalize_chat(df: pd.DataFrame) -> dict:
-    if "customer_id" not in df.columns or "transcript" not in df.columns:
-        return {}
-    df = df.copy()
-    df["customer_id"] = df["customer_id"].astype(str).str.strip()
-    df["transcript"] = df["transcript"].astype(str).str.strip()
-    if "timestamp" in df.columns:
-        df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce")
-        df = df.sort_values(["customer_id", "timestamp"], ascending=[True, False])
-    grouped = df.groupby("customer_id", sort=True)
-    transcripts = {}
-    for cid, group in grouped:
-        texts = group["transcript"].dropna().astype(str).tolist()
-        transcripts[cid] = " ".join(texts).strip()
-    return transcripts
-
-
-def _normalize_satisfaction(df: pd.DataFrame) -> dict:
-    if "customer_id" not in df.columns:
-        return {}
-    df = df.copy()
-    df["customer_id"] = df["customer_id"].astype(str).str.strip()
-    if "survey_date" in df.columns:
-        df["survey_date"] = pd.to_datetime(df["survey_date"], errors="coerce")
-        df = df.sort_values(["customer_id", "survey_date"], ascending=[True, False])
-    grouped = df.groupby("customer_id", sort=True)
-    satisfaction = {}
-    for cid, group in grouped:
-        row = group.iloc[0]
-        satisfaction[cid] = {
-            "csat_score": _safe_int(row.get("csat_score", ""), default=None) if row.get("csat_score", "") != "" else None,
-            "nps_score": _safe_int(row.get("nps_score", ""), default=None) if row.get("nps_score", "") != "" else None,
-        }
-    return satisfaction
-
-
-def _synthesize_transcript_from_satisfaction(scores: dict) -> str:
-    csat = scores.get("csat_score") or 0
-    nps = scores.get("nps_score") or 0
-    if csat >= 4 and nps >= 0:
-        return f"Customer reported strong satisfaction in the survey: CSAT {csat}/5, NPS {nps}."
-    if csat >= 3 and nps >= 0:
-        return f"Customer survey is mixed: CSAT {csat}/5, NPS {nps}."
-    return f"Customer reported low satisfaction: CSAT {csat}/5, NPS {nps}."
-
-
-def _build_customers(billing_df=None, chat_map=None, satisfaction_map=None):
-    baseline = {c["customer_id"]: c.copy() for c in load_customers()}
-
-    source_ids = set()
-    if billing_df is not None and not billing_df.empty:
-        source_ids.update(billing_df["customer_id"].tolist())
-    if chat_map is not None:
-        source_ids.update(chat_map.keys())
-    if satisfaction_map is not None:
-        source_ids.update(satisfaction_map.keys())
-
-    if not source_ids:
-        return list(baseline.values())
-
-    customers = []
-    for cid in sorted(source_ids):
-        customer = baseline.get(cid, {
-            "customer_id": cid,
-            "name": f"Customer {cid}",
-            "plan": "Basic",
-            "tenure_months": 12,
-            "monthly_bill_usd": 99,
-            "late_payments_90d": 0,
-            "usage_trend_pct_90d": 0,
-            "support_tickets_90d": 1,
-            "transcript": "No transcript provided.",
-            "csat_score": None,
-            "nps_score": None,
-        }).copy()
-
-        if billing_df is not None and cid in billing_df["customer_id"].tolist():
-            row = billing_df[billing_df["customer_id"] == cid].iloc[-1]
-            customer["name"] = row.get("name", customer.get("name", customer["customer_id"]))
-            customer["plan"] = row.get("plan", customer.get("plan", "Basic"))
-            customer["monthly_bill_usd"] = _safe_int(row.get("monthly_bill_usd", ""), default=customer.get("monthly_bill_usd", 99))
-            customer["tenure_months"] = _safe_int(row.get("tenure_months", ""), default=customer.get("tenure_months", 12))
-            customer["late_payments_90d"] = _safe_int(row.get("late_payments_90d", ""), default=customer.get("late_payments_90d", 0))
-            customer["usage_trend_pct_90d"] = _safe_int(row.get("usage_trend_pct_90d", ""), default=customer.get("usage_trend_pct_90d", 0))
-            customer["support_tickets_90d"] = _safe_int(row.get("support_tickets_90d", ""), default=customer.get("support_tickets_90d", 1))
-
-        if chat_map is not None and cid in chat_map:
-            transcript = chat_map[cid]
-            if transcript:
-                customer["transcript"] = transcript
-
-        if satisfaction_map is not None and cid in satisfaction_map:
-            scores = satisfaction_map[cid]
-            customer["csat_score"] = scores.get("csat_score")
-            customer["nps_score"] = scores.get("nps_score")
-            if not customer.get("transcript") or customer["transcript"] == "No transcript provided.":
-                customer["transcript"] = _synthesize_transcript_from_satisfaction(scores)
-
-        customer["monthly_bill_usd"] = _safe_int(customer.get("monthly_bill_usd", 99), default=99)
-        customer["tenure_months"] = _safe_int(customer.get("tenure_months", 12), default=12)
-        customer["late_payments_90d"] = _safe_int(customer.get("late_payments_90d", 0), default=0)
-        customer["usage_trend_pct_90d"] = _safe_int(customer.get("usage_trend_pct_90d", 0), default=0)
-        customer["support_tickets_90d"] = _safe_int(customer.get("support_tickets_90d", 1), default=1)
-        customer["transcript"] = str(customer.get("transcript", "No transcript provided."))
-        customer["plan"] = customer.get("plan", "Basic") or "Basic"
-        customer["name"] = customer.get("name", customer["customer_id"])
-
-        customers.append(customer)
-
-    return customers
 
 
 @st.cache_data(show_spinner="Running agent pipeline for all customers...")
@@ -273,15 +131,15 @@ with st.sidebar:
     satisfaction_file = st.file_uploader("Satisfaction scores CSV", type="csv")
     st.markdown("Upload one, two, or all three files. Missing fields fall back to demo-safe defaults.")
 
-billing_df = _normalize_billing(_read_csv(billing_file)) if billing_file else None
-chat_map = _normalize_chat(_read_csv(chat_file)) if chat_file else None
-satisfaction_map = _normalize_satisfaction(_read_csv(satisfaction_file)) if satisfaction_file else None
+billing_df = normalize_billing_dataframe(_read_csv_from_file(billing_file)) if billing_file else None
+chat_map = normalize_chat_dataframe(_read_csv_from_file(chat_file)) if chat_file else None
+satisfaction_map = normalize_satisfaction_dataframe(_read_csv_from_file(satisfaction_file)) if satisfaction_file else None
 
 if billing_file or chat_file or satisfaction_file:
-    customers = _build_customers(billing_df=billing_df, chat_map=chat_map, satisfaction_map=satisfaction_map)
+    customers = merge_customers_from_dataframes(billing_df=billing_df, chat_map=chat_map, satisfaction_map=satisfaction_map)
     st.success(f"Loaded detector input for {len(customers)} customer(s).")
 else:
-    customers = load_customers()
+    customers = load_builtin_customers()
     st.info("No upload detected — using the built-in sample dataset. Press Start to run the detector.")
 
 if not st.session_state.start_agent:
